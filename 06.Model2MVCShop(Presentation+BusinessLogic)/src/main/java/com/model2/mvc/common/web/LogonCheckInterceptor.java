@@ -61,14 +61,14 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 			String uri = request.getRequestURI();
 			if(		uri.indexOf("addUserView") != -1 	|| 	uri.indexOf("addUser") != -1 || 
 					uri.indexOf("loginView") != -1 			||	uri.indexOf("login") != -1 		|| 
-					uri.indexOf("checkDuplication") != -1 ){
+					uri.indexOf("checkDuplication") != -1  || uri.indexOf("listProduct") != -1 ||uri.indexOf("getProduct") != -1){
 				System.out.println("[ 로그 시도 상태 .... ]");
 				System.out.println("[ LogonCheckInterceptor end........]\n");
 				return true;
 			}
 			
 
-			request.getRequestDispatcher("/product/listProduct.jsp").forward(request, response);
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
 			System.out.println("[ 로그인 이전 ... ]");
 			System.out.println("[ LogonCheckInterceptor end........]\n");
 			return false;
