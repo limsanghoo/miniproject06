@@ -56,7 +56,7 @@ public class ProductController {
 		
 		productService.addProduct(product);
 		
-		return "forward:/product/getProduct.jsp";
+		return "forward:/product/addProduct.jsp";
 	}
 	@RequestMapping("/getProduct.do")
 	public String getProduct(@RequestParam("prodNo") int prodNo, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {

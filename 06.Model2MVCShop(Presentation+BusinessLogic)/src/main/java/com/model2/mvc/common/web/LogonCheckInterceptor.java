@@ -67,10 +67,11 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 				return true;
 			}
 			
-			request.getRequestDispatcher("/listProductView.do").forward(request, response);
+
+			request.getRequestDispatcher("/product/listProduct.jsp").forward(request, response);
 			System.out.println("[ 로그인 이전 ... ]");
 			System.out.println("[ LogonCheckInterceptor end........]\n");
-			return true;
+			return false;
 		}
 	}
 }//end of class
