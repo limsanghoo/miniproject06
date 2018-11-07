@@ -36,10 +36,10 @@
 	   	UPDATE product
 	   	<set>
 	   		prod_name = #{prodName} ,
-	   		price = #{price} ,
-	   		prod_detail = #{prodDetail} ,
-	   		manufacture_day = #{manuDate} ,
-	   		image_file = #{fileName}
+	   		price = #{price:INTEGER} ,
+	   		prod_detail = #{prodDetail:VARCHAR} ,
+	   		manufacture_day = 	to_char(to_date(#{manuDate} ,'yyyy-mm-dd'),'yyyymmdd'),
+	   		image_file = #{fileName:VARCHAR}
 	   		
 	   
 	   	</set>

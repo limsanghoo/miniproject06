@@ -2,7 +2,9 @@ package com.model2.mvc.web.product;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +59,7 @@ public class ProductController {
 		return "forward:/product/getProduct.jsp";
 	}
 	@RequestMapping("/getProduct.do")
-	public String getProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
+	public String getProduct(@RequestParam("prodNo") int prodNo, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		System.out.println("/getProduct.do");
 		
@@ -65,6 +67,26 @@ public class ProductController {
 		
 		model.addAttribute("product",product);
 		
+		boolean added = false;
+		String history = null;
+		Cookie[] cookies = request.getCookies();
+	
+		if (cookies!=null && cookies.length > 0) {
+			for (int i = 0; i < cookies.length; i++) {
+				Cookie cookie = cookies[i];
+				if (cookie.getName().equals("history")) {
+					history = cookie.getValue();
+					history+=","+prodNo;
+					cookie.setValue(history);
+					response.addCookie(cookie);
+					added=true;
+				}
+			}
+			if (!added) {
+				Cookie cookie = new Cookie("history",prodNo+"");
+				response.addCookie(cookie);
+			}
+		}
 		return "forward:/product/getProduct.jsp";
 	}
 	@RequestMapping("/updateProductView.do")
@@ -79,13 +101,13 @@ public class ProductController {
 		return "forward:/product/updateProduct.jsp";
 	}
 	@RequestMapping("/updateProduct.do")
-	public String updateProduct(@ModelAttribute("product") Product product, Model model, HttpSession session) throws Exception{
+	public String updateProduct(@ModelAttribute("product") Product product, Model model, HttpServletRequest request ) throws Exception{
 		
 		System.out.println("/updateProduct.do");		
 		productService.updateProduct(product);
 		
 		
-		return "redirect:/updateProduct.do?prodNo="+product.getProdNo();
+		return  "redirect:/getProduct.do?prodNo="+product.getProdNo()+"&menu="+request.getParameter("menu");
 		
 	
 	
@@ -97,6 +119,7 @@ public class ProductController {
 	public String listProduct(@ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception {
 		
 		System.out.println("/listProduct.do");
+		
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
