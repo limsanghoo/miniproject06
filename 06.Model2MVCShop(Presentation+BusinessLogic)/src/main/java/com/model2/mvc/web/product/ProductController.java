@@ -51,7 +51,7 @@ public class ProductController {
 		
 		productService.addProduct(product);
 		
-		return "forward:/user/getProduct.jsp";
+		return "forward:/product/getProduct.jsp";
 	}
 	@RequestMapping("/getProduct.do")
 	public String getProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
@@ -62,7 +62,18 @@ public class ProductController {
 		
 		model.addAttribute("product",product);
 		
-		return "foward:/product/getProduct.jsp";
+		return "forward:/product/getProduct.jsp";
+	}
+	@RequestMapping("/updateProductView.do")
+	public String updateProductView( @RequestParam("prodNo") int prodNo, Model model) throws Exception {
+		
+		System.out.println("/updateProductView.do");
+		
+		Product product = productService.getProduct(prodNo);
+		
+		model.addAttribute("product",product);
+		
+		return "forward:/product/updateProduct.jsp";
 	}
 	@RequestMapping("/updateProduct.do")
 	public String updateProduct(@ModelAttribute("product") Product product, Model model, HttpSession session) throws Exception{
@@ -83,6 +94,8 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
+		
+
 		
 Map<String , Object> map=productService.getProductList(search);
 		
