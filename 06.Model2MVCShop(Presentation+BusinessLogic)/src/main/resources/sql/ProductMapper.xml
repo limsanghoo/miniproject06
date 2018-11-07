@@ -37,12 +37,13 @@
 	   	<set>
 	   		prod_name = #{prodName} ,
 	   		price = #{price} ,
-	   		prod_detail = #{prodDetail}
-	   		
+	   		prod_detail = #{prodDetail} ,
+	   		manufacture_day = #{manuDate} ,
+	   		image_file = #{fileName}
 	   		
 	   
 	   	</set>
-	   	WHERE prod_no = 10030
+	   	WHERE prod_no = #{prodNo}
 	 </update>
 	
 	
