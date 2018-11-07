@@ -108,13 +108,21 @@ public class ProductController {
 		
 		
 		return  "redirect:/getProduct.do?prodNo="+product.getProdNo()+"&menu="+request.getParameter("menu");
-		
-	
-	
-		
-	
-	
 	}
+		@RequestMapping("/listProductView.do")
+		public String listProductView( @RequestParam("prodNo") int prodNo, Model model) throws Exception {
+			
+			System.out.println("/listProductView.do");
+			
+			Product product = productService.getProduct(prodNo);
+			
+			model.addAttribute("product",product);
+			
+			return "forward:/product/listProduct.jsp";
+		}
+	
+	
+
 	@RequestMapping("/listProduct.do")
 	public String listProduct(@ModelAttribute("search") Search search, Model model, HttpServletRequest request) throws Exception {
 		
